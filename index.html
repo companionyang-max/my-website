@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>메디게이트 MSPAC 2026 - 참가 등록</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0B1426;
+      --surface: #111D35;
+      --card: #162040;
+      --border: #1E2E50;
+      --accent: #3B82F6;
+      --accent-glow: rgba(59,130,246,0.25);
+      --accent2: #06B6D4;
+      --text: #E8EFFE;
+      --muted: #7A90B8;
+      --success-bg: #0B2A1F;
+      --success: #10B981;
+      --red: #F87171;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 56px 24px 48px;
+      text-align: center;
+      background: linear-gradient(160deg, #0D1B3E 0%, #0B1426 60%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,130,246,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 80% 60%, rgba(6,182,212,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      border: 1px solid var(--accent2);
+      border-radius: 20px;
+      padding: 4px 14px;
+      margin-bottom: 18px;
+      opacity: 0.9;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 7vw, 44px);
+      line-height: 1.15;
+      background: linear-gradient(135deg, #FFFFFF 30%, #93C5FD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .hero-sub {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      margin: 20px auto 0;
+    }
+
+    /* ── FORM CARD ── */
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      margin-top: -8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+    .field label span.required {
+      color: var(--accent);
+      margin-left: 3px;
+    }
+    .field input {
+      width: 100%;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 16px;
+      font-size: 15px;
+      font-family: 'Noto Sans KR', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input::placeholder { color: #3A4F72; }
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    .field input.error {
+      border-color: var(--red);
+    }
+    .field-error {
+      font-size: 12px;
+      color: var(--red);
+      margin-top: 5px;
+      display: none;
+    }
+    .field-error.show { display: block; }
+
+    /* ── CHECKBOX GROUP ── */
+    .check-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 2px;
+    }
+    .check-group.cols2 { gap: 10px; }
+    .check-item {
+      position: relative;
+      flex: 1 1 calc(50% - 5px);
+    }
+    .check-item.full { flex: 1 1 100%; }
+    .check-item input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+    .check-item label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: 0;
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+      user-select: none;
+    }
+    .check-item label::before {
+      content: '';
+      flex-shrink: 0;
+      width: 18px; height: 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 5px;
+      background: var(--bg);
+      transition: background 0.18s, border-color 0.18s;
+    }
+    .check-item input[type="checkbox"]:checked + label {
+      border-color: var(--accent);
+      background: rgba(59,130,246,0.08);
+      color: #93C5FD;
+    }
+    .check-item input[type="checkbox"]:checked + label::before {
+      background: var(--accent);
+      border-color: var(--accent);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='1,5 4.5,8.5 11,1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: 11px 9px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .check-group.error-border .check-item label {
+      border-color: var(--red);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      margin-top: 8px;
+      background: linear-gradient(135deg, var(--accent) 0%, #2563EB 100%);
+      color: #fff;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      letter-spacing: 0.5px;
+    }
+    .btn-submit:active { transform: scale(0.98); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .privacy-note {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── SUCCESS ── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 40px 20px 60px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .success-screen.show { display: block; }
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--success-bg);
+      border: 2px solid var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .success-icon svg { width: 36px; height: 36px; }
+    .success-screen h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .success-screen p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .kakao-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #FEE500;
+      color: #191919;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 15px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      box-shadow: 0 4px 20px rgba(254,229,0,0.3);
+      width: 100%;
+      justify-content: center;
+    }
+    .kakao-btn:active { transform: scale(0.98); }
+    .kakao-btn svg { width: 24px; height: 24px; flex-shrink: 0; }
+    .kakao-hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    /* spinner */
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1E3A5F;
+      border: 1px solid var(--accent);
+      color: var(--text);
+      font-size: 13px;
+      padding: 12px 22px;
+      border-radius: 40px;
+      white-space: nowrap;
+      transition: transform 0.3s ease;
+      z-index: 999;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">2026 Seminar</div>
+  <h1>메디게이트<br/>MSPAC 2026</h1>
+  <p class="hero-sub">참가자 정보를 입력하고 오픈채팅에 참여하세요</p>
+  <div class="divider"></div>
+</div>
+
+<!-- FORM -->
+<div class="container" id="formSection">
+  <div class="card">
+    <div class="card-title">참가 등록</div>
+
+    <div class="field">
+      <label>성명 <span class="required">*</span></label>
+      <input type="text" id="name" placeholder="홍길동" autocomplete="name" />
+      <div class="field-error" id="name-err">성명을 입력해 주세요.</div>
+    </div>
+
+    <div class="field">
+      <label>전공과목 <span class="required">*</span></label>
+      <input type="text" id="major" placeholder="예: 내과, 외과, 정형외과 등" />
+      <div class="field-error" id="major-err">전공과목을 입력해 주세요.</div>
+    </div>
+
+    <div class="field">
+      <label>전화번호 <span class="required">*</span></label>
+      <input type="tel" id="phone" placeholder="010-0000-0000" autocomplete="tel" inputmode="numeric" />
+      <div class="field-error" id="phone-err">올바른 전화번호를 입력해 주세요.</div>
+    </div>
+
+    <div class="field">
+      <label>근무형태 <span class="required">*</span></label>
+      <div class="check-group" id="worktype-group">
+        <div class="check-item">
+          <input type="checkbox" id="wt-open" name="worktype" value="개원의" />
+          <label for="wt-open">개원의</label>
+        </div>
+        <div class="check-item">
+          <input type="checkbox" id="wt-staff" name="worktype" value="봉직의" />
+          <label for="wt-staff">봉직의</label>
+        </div>
+      </div>
+      <div class="field-error" id="worktype-err">근무형태를 선택해 주세요.</div>
+    </div>
+
+    <div class="field">
+      <label>개원희망시기 <span class="required">*</span></label>
+      <div class="check-group" id="opentime-group">
+        <div class="check-item">
+          <input type="checkbox" id="ot-1y" name="opentime" value="1년 이내" />
+          <label for="ot-1y">1년 이내</label>
+        </div>
+        <div class="check-item">
+          <input type="checkbox" id="ot-3y" name="opentime" value="3년 이내" />
+          <label for="ot-3y">3년 이내</label>
+        </div>
+        <div class="check-item full">
+          <input type="checkbox" id="ot-no" name="opentime" value="아직 계획없음" />
+          <label for="ot-no">아직 계획없음</label>
+        </div>
+      </div>
+      <div class="field-error" id="opentime-err">개원희망시기를 선택해 주세요.</div>
+    </div>
+
+    <div class="field">
+      <label>개원예정지 <span class="required">*</span></label>
+      <div class="check-group cols2" id="region-group">
+        <div class="check-item">
+          <input type="checkbox" id="rg-sg" name="region" value="서울/경기" />
+          <label for="rg-sg">서울/경기</label>
+        </div>
+        <div class="check-item">
+          <input type="checkbox" id="rg-dc" name="region" value="대전/충남" />
+          <label for="rg-dc">대전/충남</label>
+        </div>
+        <div class="check-item">
+          <input type="checkbox" id="rg-bg" name="region" value="부산/경남" />
+          <label for="rg-bg">부산/경남</label>
+        </div>
+        <div class="check-item">
+          <input type="checkbox" id="rg-dg" name="region" value="대구/경북" />
+          <label for="rg-dg">대구/경북</label>
+        </div>
+        <div class="check-item full">
+          <input type="checkbox" id="rg-gj" name="region" value="광주/전라" />
+          <label for="rg-gj">광주/전라</label>
+        </div>
+      </div>
+      <div class="field-error" id="region-err">개원예정지를 선택해 주세요.</div>
+    </div>
+
+    <button class="btn-submit" id="submitBtn" onclick="handleSubmit()">등록 완료</button>
+    <p class="privacy-note">입력하신 정보는 세미나 운영 목적으로만 사용됩니다.</p>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-screen" id="successScreen">
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+  <h2>등록 완료!</h2>
+  <p>참가 신청이 정상적으로 접수되었습니다.<br/>아래 버튼을 눌러 카카오톡 오픈채팅에 참여해 주세요.</p>
+  <a class="kakao-btn" href="https://open.kakao.com/o/g2oIJ4Jg" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="#191919" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3C6.477 3 2 6.582 2 11c0 2.77 1.617 5.207 4.084 6.694L5.1 21l4.028-2.117C9.67 19.093 10.822 19.2 12 19.2c5.523 0 10-3.582 10-8.1C22 6.582 17.523 3 12 3z"/>
+    </svg>
+    카카오톡 오픈채팅 참여하기
+  </a>
+  <p class="kakao-hint">버튼을 탭하면 카카오톡으로 연결됩니다.</p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ⚙️  여기에 Google Apps Script 웹앱 URL을 붙여넣으세요
+https://script.google.com/macros/library/d/1Pye_T9h6UxZc-4RzRHuVFzQhqSzG4q3hnbgBiROddY7lueMzsaWmvE9p/1
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  // 전화번호 자동 하이픈
+  document.getElementById('phone').addEventListener('input', function (e) {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length <= 3) { e.target.value = v; }
+    else if (v.length <= 7) { e.target.value = v.slice(0,3) + '-' + v.slice(3); }
+    else { e.target.value = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7,11); }
+  });
+
+  function showError(id, msg) {
+    const el = document.getElementById(id);
+    const err = document.getElementById(id + '-err');
+    if (el) el.classList.add('error');
+    if (err) { if (msg) err.textContent = msg; err.classList.add('show'); }
+  }
+  function clearError(id) {
+    const el = document.getElementById(id);
+    const err = document.getElementById(id + '-err');
+    if (el) el.classList.remove('error');
+    if (err) err.classList.remove('show');
+  }
+  ['name','major','phone'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => clearError(id));
+  });
+  document.querySelectorAll('input[name="worktype"]').forEach(cb => cb.addEventListener('change', () => {
+    clearError('worktype');
+    document.getElementById('worktype-group').classList.remove('error-border');
+  }));
+  document.querySelectorAll('input[name="opentime"]').forEach(cb => cb.addEventListener('change', () => {
+    clearError('opentime');
+    document.getElementById('opentime-group').classList.remove('error-border');
+  }));
+  document.querySelectorAll('input[name="region"]').forEach(cb => cb.addEventListener('change', () => {
+    clearError('region');
+    document.getElementById('region-group').classList.remove('error-border');
+  }));
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  async function handleSubmit() {
+    const name  = document.getElementById('name').value.trim();
+    const major = document.getElementById('major').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const worktypes  = [...document.querySelectorAll('input[name="worktype"]:checked')].map(c => c.value);
+    const opentimes  = [...document.querySelectorAll('input[name="opentime"]:checked')].map(c => c.value);
+    const regions    = [...document.querySelectorAll('input[name="region"]:checked')].map(c => c.value);
+    let valid = true;
+
+    if (!name)  { showError('name');  valid = false; }
+    if (!major) { showError('major'); valid = false; }
+    const phoneRegex = /^0\d{1,2}-\d{3,4}-\d{4}$/;
+    if (!phone || !phoneRegex.test(phone)) {
+      showError('phone', '올바른 전화번호를 입력해 주세요. (예: 010-1234-5678)');
+      valid = false;
+    }
+    if (worktypes.length === 0) {
+      showError('worktype', '근무형태를 선택해 주세요.');
+      document.getElementById('worktype-group').classList.add('error-border');
+      valid = false;
+    }
+    if (opentimes.length === 0) {
+      showError('opentime', '개원희망시기를 선택해 주세요.');
+      document.getElementById('opentime-group').classList.add('error-border');
+      valid = false;
+    }
+    if (regions.length === 0) {
+      showError('region', '개원예정지를 선택해 주세요.');
+      document.getElementById('region-group').classList.add('error-border');
+      valid = false;
+    }
+    if (!valid) return;
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>제출 중…';
+
+    const payload = {
+      name,
+      major,
+      phone,
+      worktype:  worktypes.join(', '),
+      opentime:  opentimes.join(', '),
+      region:   regions.join(', '),
+      timestamp: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+    };
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) { /* no-cors → opaque response, ignore */ }
+
+    document.getElementById('formSection').style.display = 'none';
+    const s = document.getElementById('successScreen');
+    s.classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
